@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>Demo shop</title>
+
+  <!-- See https://goo.gl/OOhYW5 -->
+  <link rel="manifest" href="/manifest.json">
+
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+  <style is="custom-style">
+
+    body {
+      background: #f6f3ed;
+      min-width: 20em;
+      font-family: "Open Sans", Arial, Helvetica, sans-serif;
+      font-size: .875em;
+      line-height: 1.5;
+      color: #31312f;
+    }
+
+    /* Will be prevented from affecting local DOM of Polymer elements */
+    * {
+      color: red;
+    }
+
+    /* Use the :root selector to define custom properties and mixins */
+    /* at the document level  */
+    :root {
+      --my-toolbar-title-color: green;
+    }
+
+  </style>
+
+  <link rel="import" href="src/demo-app/demo-app.html">
+
+</head>
+<body>
+<demo-app>
+  <h1>Hello World 1</h1>
+</demo-app>
+
+</body>
+</html>

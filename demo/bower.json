@@ -1,0 +1,10 @@
+{
+  "name": "demo-app",
+  "main": "index.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "app-route": "polymerelements/app-route#^1.0.1",
+    "iron-pages": "polymerelements/iron-pages#^1.0.9"
+  }
+}

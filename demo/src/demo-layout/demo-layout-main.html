@@ -1,0 +1,25 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="demo-layout-main">
+
+  <template>
+
+    <style include="bol-shared-styles"></style>
+
+    <demo-layout-header></demo-layout-header>
+
+    <div class="[ constrain  constrain--main  constrain--light ]">
+      <content></content>
+    </div>
+
+    <demo-layout-footer></demo-layout-footer>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'demo-layout-main'
+    });
+  </script>
+
+</dom-module>

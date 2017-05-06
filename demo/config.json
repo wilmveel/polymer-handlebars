@@ -1,0 +1,6 @@
+{
+  "files": [
+    "src/demo-app/**",
+    "src/demo-layout/**"
+  ]
+}
