@@ -1,0 +1,22 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="bol-pages-product">
+
+  <template>
+
+    <header>{{product.name}}</header>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'bol-pages-product',
+      properties: {
+        productId: {
+          type: String
+        }
+      }
+    });
+  </script>
+
+</dom-module>

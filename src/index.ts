@@ -18,21 +18,22 @@ const args = minimist(process.argv.slice(2));
 const configLocation = path.join(process.cwd(), args.config);
 const configuration: Options = require(configLocation);
 const applicationFolder = path.dirname(configLocation);
+const viewsPath = path.join(applicationFolder, 'views');
 
 function relativeToCwd(file: string): string {
   return path.relative(process.cwd(), path.join(applicationFolder, file));
 }
 
-function htmlToPartialExtension(file: string): string {
-  return file.replace(path.extname(file), '.partial');
+function htmlToHandlebarsExtension(file: string, extension = '.handlebars'): string {
+  return file.replace(path.extname(file), extension);
 }
 
 function replaceASTNodeWithHandlebars(
     elementReference: ElementReferenceLocation, file: string) {
   const relativeHandlebar =
-      path.relative(path.dirname(elementReference.location), file);
+      path.relative(applicationFolder, file);
   const handleBar = dom5.constructors.text(
-      `{{> ${htmlToPartialExtension(relativeHandlebar)}}}`);
+      `{{> ${htmlToHandlebarsExtension(relativeHandlebar, '')} }}`);
   dom5.replace(elementReference.node, handleBar);
 }
 
@@ -84,7 +85,6 @@ function recursivelyProcessElementReferences(
 }
 
 function outputPartialElements(sourceFiles: string[], result: Analysis) {
-  const partialsPath = path.join(applicationFolder, 'partials');
   for (const file of sourceFiles) {
     const document = result.getDocument(file);
     if (!(document instanceof Document)) {
@@ -92,10 +92,7 @@ function outputPartialElements(sourceFiles: string[], result: Analysis) {
       process.exit(-1);
       return;
     }
-    const partialLocation =
-        path.join(partialsPath, path.relative(applicationFolder, file));
-    const partialPath = htmlToPartialExtension(partialLocation);
-    fs.ensureDirSync(path.dirname(partialPath));
+
     const template = dom5.query(
         document.parsedDocument.ast,
         dom5.predicates.AND(
@@ -103,11 +100,21 @@ function outputPartialElements(sourceFiles: string[], result: Analysis) {
             dom5.predicates.parentMatches(
                 dom5.predicates.hasTagName('dom-module'))));
     if (template) {
+      const partialLocation = path.join(
+          viewsPath, 'partials', path.relative(applicationFolder, file));
+      const partialPath = htmlToHandlebarsExtension(partialLocation);
+      fs.ensureDirSync(path.dirname(partialPath));
+
       fs.writeFileSync(
           partialPath,
           parse5.serialize(
               parse5.treeAdapters.default.getTemplateContent(template)));
     } else {
+      const partialLocation =
+          path.join(viewsPath, path.relative(applicationFolder, file));
+      const partialPath = htmlToHandlebarsExtension(partialLocation);
+      fs.ensureDirSync(path.dirname(partialPath));
+
       fs.writeFileSync(
           partialPath, parse5.serialize(document.parsedDocument.ast));
     }
