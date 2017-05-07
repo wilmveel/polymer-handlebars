@@ -96,8 +96,21 @@ function outputPartialElements(sourceFiles: string[], result: Analysis) {
         path.join(partialsPath, path.relative(applicationFolder, file));
     const partialPath = htmlToPartialExtension(partialLocation);
     fs.ensureDirSync(path.dirname(partialPath));
-    fs.writeFileSync(
-        partialPath, parse5.serialize(document.parsedDocument.ast));
+    const template = dom5.query(
+        document.parsedDocument.ast,
+        dom5.predicates.AND(
+            dom5.predicates.hasTagName('template'),
+            dom5.predicates.parentMatches(
+                dom5.predicates.hasTagName('dom-module'))));
+    if (template) {
+      fs.writeFileSync(
+          partialPath,
+          parse5.serialize(
+              parse5.treeAdapters.default.getTemplateContent(template)));
+    } else {
+      fs.writeFileSync(
+          partialPath, parse5.serialize(document.parsedDocument.ast));
+    }
   }
 }
 
