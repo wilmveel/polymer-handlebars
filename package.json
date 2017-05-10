@@ -27,7 +27,6 @@
     "quicktest": "export QUICK_TESTS=true; npm run build && mocha",
     "test:watch": "watchy -w src/ -- npm run quicktest --loglevel=silent",
     "format": "find src | grep '\\.js$\\|\\.ts$' | xargs clang-format --style=file -i",
-    "postinstall": "cd demo/ && node ../node_modules/bower/bin/bower install",
     "prepublishOnly": "tsc && npm test"
   },
   "devDependencies": {
